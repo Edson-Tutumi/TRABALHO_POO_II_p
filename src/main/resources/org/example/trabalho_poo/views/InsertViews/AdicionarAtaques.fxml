@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="480.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Insert.InsertAttackController">
+    <children>
+        <Label layoutX="176.0" layoutY="20.0" text="Inserir ataque">
+            <font><Font size="36.0" /></font>
+        </Label>
+        <VBox layoutX="120.0" layoutY="115.0" prefHeight="250.0" prefWidth="360.0" spacing="10.0">
+            <children>
+                <HBox>
+                    <children>
+                        <Label prefWidth="120.0" text="Nome:  "><padding><Insets top="8.0" /></padding></Label>
+                        <TextField fx:id="txtNomeAtaque" prefWidth="240.0" />
+                    </children>
+                </HBox>
+                <HBox>
+                    <children>
+                        <Label prefWidth="120.0" text="Tipo:  "><padding><Insets top="8.0" /></padding></Label>
+                        <SplitMenuButton fx:id="SMBTipoAtaque" mnemonicParsing="false" text="Selecione o Tipo">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Fire" />
+                                <MenuItem mnemonicParsing="false" text="Water" />
+                                <MenuItem mnemonicParsing="false" text="Grass" />
+                                <MenuItem mnemonicParsing="false" text="Electric" />
+                                <MenuItem mnemonicParsing="false" text="Normal" />
+                                <MenuItem mnemonicParsing="false" text="Ice" />
+                                <MenuItem mnemonicParsing="false" text="Fighting" />
+                                <MenuItem mnemonicParsing="false" text="Poison" />
+                                <MenuItem mnemonicParsing="false" text="Ground" />
+                                <MenuItem mnemonicParsing="false" text="Flying" />
+                                <MenuItem mnemonicParsing="false" text="Psychic" />
+                                <MenuItem mnemonicParsing="false" text="Bug" />
+                                <MenuItem mnemonicParsing="false" text="Rock" />
+                                <MenuItem mnemonicParsing="false" text="Ghost" />
+                                <MenuItem mnemonicParsing="false" text="Dragon" />
+                                <MenuItem mnemonicParsing="false" text="Dark" />
+                                <MenuItem mnemonicParsing="false" text="Steel" />
+                                <MenuItem mnemonicParsing="false" text="Fairy" />
+                            </items>
+                        </SplitMenuButton>
+                    </children>
+                </HBox>
+                <HBox>
+                    <children>
+                        <Label prefWidth="120.0" text="Poder:  "><padding><Insets top="8.0" /></padding></Label>
+                        <TextField fx:id="txtPoderAtaque" prefWidth="240.0" />
+                    </children>
+                </HBox>
+                <HBox>
+                    <children>
+                        <Label prefWidth="120.0" text="Efeito:  "><padding><Insets top="8.0" /></padding></Label>
+                        <TextField fx:id="txtEfeitoAtaque" prefWidth="240.0" />
+                    </children>
+                </HBox>
+                <HBox>
+                    <children>
+                        <Label prefWidth="120.0" text="Acurácia:  "><padding><Insets top="8.0" /></padding></Label>
+                        <TextField fx:id="txtAcuraciaAtaque" prefWidth="240.0" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+        <Button layoutX="320.0" layoutY="400.0" mnemonicParsing="false" onAction="#btnInserirAtaqueOnAction" text="Inserir ataque" />
+        <Button layoutX="160.0" layoutY="400.0" mnemonicParsing="false" onAction="#btnVoltarOnAction" text="Voltar ao menu" />
+    </children>
+</AnchorPane>
