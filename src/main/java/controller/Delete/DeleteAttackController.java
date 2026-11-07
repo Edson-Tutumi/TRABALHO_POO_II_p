@@ -6,6 +6,7 @@ import DAO.Attack.AttackDBDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Attack;
+import Facade.AttackFacade;
 
 import java.sql.SQLException;
 
@@ -18,6 +19,13 @@ public class DeleteAttackController {
 
     public DeleteAttackController() {
         this.attackDAO = new AttackDBDAO();
+    }
+
+    private AttackFacade facade = new AttackFacade();
+
+    @FXML
+    public void deletarAtaque() {
+        facade.listarTodosAtaques();
     }
 
     @FXML

@@ -22,4 +22,6 @@ module org.example.trabalho_poo {
     exports DAO.Attack;
     exports DAO.PokemonAttack;
     exports DAO.Pokemon;
+    exports Facade;
+    opens Facade to javafx.base;
 }

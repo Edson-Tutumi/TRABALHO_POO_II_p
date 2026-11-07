@@ -6,6 +6,7 @@ import DAO.Pokemon.PokemonDBDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Pokemon;
+import Facade.PokemonFacade;
 
 import java.sql.SQLException;
 
@@ -21,6 +22,16 @@ public class UpdatePokemonController {
 
     public UpdatePokemonController() {
         this.pokemonDAO = new PokemonDBDAO();
+    }
+
+    @FXML
+    private TextField txtNome;
+
+    private PokemonFacade facade = new PokemonFacade();
+
+    @FXML
+    public void atualizarPokemon() {
+        facade.listarTodosPokemons();
     }
 
     @FXML

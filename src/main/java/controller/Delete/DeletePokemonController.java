@@ -6,6 +6,7 @@ import DAO.Pokemon.PokemonDBDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Pokemon;
+import Facade.PokemonFacade;
 
 import java.sql.SQLException;
 
@@ -17,6 +18,13 @@ public class DeletePokemonController {
 
     public DeletePokemonController() {
         this.pokemonDAO = new PokemonDBDAO();
+    }
+
+    private PokemonFacade facade = new PokemonFacade();
+
+    @FXML
+    public void deletarPokemon() {
+        facade.listarTodosPokemons();
     }
 
     @FXML

@@ -1,13 +1,11 @@
 package controller;
 
 import Main.GerenciadorTelas;
-import DAO.Pokemon.PokemonDBDAO;
-import DAO.Attack.AttackDBDAO;
-import DAO.PokemonAttack.PokemonAttackDBDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Pokemon;
 import model.Attack;
+import Facade.PokemonFacade;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,9 +16,19 @@ public class PokemonAttackController {
     @FXML private TextField txtIdAtaque;
     @FXML private TextArea txtAreaResultados;
 
-    private final PokemonDBDAO pokemonDAO = new PokemonDBDAO();
-    private final AttackDBDAO attackDAO = new AttackDBDAO();
-    private final PokemonAttackDBDAO pokemonAttackDAO = new PokemonAttackDBDAO();
+    @FXML private ComboBox<Pokemon> cbPokemon;
+    @FXML private ComboBox<Attack> cbAttack;
+
+    private PokemonFacade facade = new PokemonFacade();
+
+    @FXML
+    public void initialize() {
+        List<Pokemon> pokemons = facade.listarTodosPokemons();
+        List<Attack> attacks = facade.listarTodosAtaques();
+
+        if (pokemons != null) cbPokemon.getItems().addAll(pokemons);
+        if (attacks != null) cbAttack.getItems().addAll(attacks);
+    }
 
     @FXML
     public void btnVincularOnAction() {
@@ -28,15 +36,15 @@ public class PokemonAttackController {
             int pokemonId = Integer.parseInt(txtIdPokemon.getText().trim());
             int attackId = Integer.parseInt(txtIdAtaque.getText().trim());
 
-            Pokemon p = pokemonDAO.consultarPorId(pokemonId);
-            Attack a = attackDAO.consultarPorId(attackId);
+            Pokemon p = facade.buscarPokemonPorId(pokemonId);
+            Attack a = facade.buscarAtaquePorId(attackId);
 
             if (p == null || a == null) {
                 new Alert(Alert.AlertType.WARNING, "Pokemon ou Ataque não encontrado com os IDs informados", ButtonType.OK).showAndWait();
                 return;
             }
 
-            pokemonAttackDAO.insere(pokemonId, attackId);
+            facade.vincularAtaqueAoPokemon(pokemonId, attackId);
             new Alert(Alert.AlertType.INFORMATION, "Ataque vinculado ao pokemon com sucesso", ButtonType.OK).showAndWait();
             btnListarAtaquesOnAction();
         } catch (NumberFormatException e) {
@@ -52,8 +60,8 @@ public class PokemonAttackController {
             int pokemonId = Integer.parseInt(txtIdPokemon.getText().trim());
             int attackId = Integer.parseInt(txtIdAtaque.getText().trim());
 
-            pokemonAttackDAO.excluir(pokemonId, attackId);
-            new Alert(Alert.AlertType.INFORMATION, "Vinculo removido com sucesso", ButtonType.OK).showAndWait();
+            facade.desvincularAtaqueDoPokemon(pokemonId, attackId);
+            new Alert(Alert.AlertType.INFORMATION, "Vínculo removido com sucesso", ButtonType.OK).showAndWait();
             btnListarAtaquesOnAction();
         } catch (NumberFormatException e) {
             new Alert(Alert.AlertType.ERROR, "Os IDs devem ser numéricos inteiros", ButtonType.OK).showAndWait();
@@ -72,13 +80,13 @@ public class PokemonAttackController {
             }
 
             int pokemonId = Integer.parseInt(idStr);
-            Pokemon p = pokemonDAO.consultarPorId(pokemonId);
+            Pokemon p = facade.buscarPokemonPorId(pokemonId);
             if (p == null) {
                 new Alert(Alert.AlertType.WARNING, "Pokemon não encontrado.", ButtonType.OK).showAndWait();
                 return;
             }
 
-            List<Attack> ataques = pokemonAttackDAO.buscaAtaquesPorPokemon(pokemonId);
+            List<Attack> ataques = facade.listarAtaquesPorPokemon(pokemonId);
             StringBuilder sb = new StringBuilder();
             sb.append("Ataques de ").append(p.getPokemonName()).append(":\n\n");
 
@@ -104,13 +112,13 @@ public class PokemonAttackController {
             }
 
             int attackId = Integer.parseInt(idStr);
-            Attack a = attackDAO.consultarPorId(attackId);
+            Attack a = facade.buscarAtaquePorId(attackId);
             if (a == null) {
                 new Alert(Alert.AlertType.WARNING, "Ataque não encontrado.", ButtonType.OK).showAndWait();
                 return;
             }
 
-            List<Pokemon> pokemons = pokemonAttackDAO.buscaPokemonPorAtaques(attackId);
+            List<Pokemon> pokemons = facade.listarPokemonsPorAtaque(attackId);
             StringBuilder sb = new StringBuilder();
             sb.append("Pokémon que possuem o ataque '").append(a.getAttackName()).append("':\n\n");
 

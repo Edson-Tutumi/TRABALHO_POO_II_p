@@ -6,6 +6,7 @@ import DAO.Attack.AttackDBDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Attack;
+import Facade.AttackFacade;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -20,6 +21,17 @@ public class SearchAttackController {
 
     public SearchAttackController() {
         this.attackDAO = new AttackDBDAO();
+    }
+
+    @FXML
+    private ListView<Attack> listViewAtaques;
+
+    private AttackFacade facade = new AttackFacade();
+
+    @FXML
+    public void initialize() {
+        List<Attack> ataques = facade.listarTodosAtaques();
+        listViewAtaques.getItems().addAll(ataques);
     }
 
     @FXML

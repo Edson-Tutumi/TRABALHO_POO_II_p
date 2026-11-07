@@ -1,11 +1,10 @@
 package controller.Insert;
 
 import Main.GerenciadorTelas;
-import DAO.Pokemon.PokemonDAO;
-import DAO.Pokemon.PokemonDBDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Pokemon;
+import Facade.PokemonFacade;
 
 import java.sql.SQLException;
 
@@ -15,11 +14,7 @@ public class InsertPokemonController {
     @FXML private SplitMenuButton SMBTipoPokemonUm;
     @FXML private SplitMenuButton SMBTipoPokemonDois;
 
-    private final PokemonDAO pokemonDAO;
-
-    public InsertPokemonController() {
-        this.pokemonDAO = new PokemonDBDAO();
-    }
+    private PokemonFacade facade = new PokemonFacade();
 
     @FXML
     public void initialize() {
@@ -52,7 +47,7 @@ public class InsertPokemonController {
             pokemon.setPokemonType1(tipo1);
             pokemon.setPokemonType2(tipo2);
 
-            pokemonDAO.insere(pokemon);
+            facade.inserirPokemon(pokemon);
 
             new Alert(Alert.AlertType.INFORMATION, "Pokemon inserido com sucesso", ButtonType.OK).showAndWait();
             limparCampos();

@@ -6,6 +6,7 @@ import DAO.Pokemon.PokemonDBDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Pokemon;
+import Facade.PokemonFacade;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -20,6 +21,17 @@ public class SearchPokemonController {
 
     public SearchPokemonController() {
         this.pokemonDAO = new PokemonDBDAO();
+    }
+
+    @FXML
+    private ListView<Pokemon> listViewPokemons;
+
+    private PokemonFacade facade = new PokemonFacade();
+
+    @FXML
+    public void initialize() {
+        List<Pokemon> pokemons = facade.listarTodosPokemons();
+        listViewPokemons.getItems().addAll(pokemons);
     }
 
     @FXML
