@@ -1,0 +1,23 @@
+CREATE TABLE pokemon (
+    pokemonId SERIAL PRIMARY KEY,
+    pokemonName VARCHAR(100) NOT NULL,
+    pokemonType1 VARCHAR(50) NOT NULL,
+    pokemonType2 VARCHAR(50) DEFAULT '-'
+);
+
+CREATE TABLE attack (
+    attackId SERIAL PRIMARY KEY,
+    attackName VARCHAR(100) NOT NULL,
+    attackPower INT NOT NULL,
+    attackEffect TEXT,
+    attackAccuracy INT NOT NULL,
+    attackType VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE pokemon_attack (
+    pokemonId INT NOT NULL,
+    attackId INT NOT NULL,
+    PRIMARY KEY (pokemonId, attackId),
+    CONSTRAINT fk_pokemon FOREIGN KEY (pokemonId) REFERENCES pokemon(pokemonId) ON DELETE CASCADE,
+    CONSTRAINT fk_attack FOREIGN KEY (attackId) REFERENCES attack(attackId) ON DELETE CASCADE
+);
