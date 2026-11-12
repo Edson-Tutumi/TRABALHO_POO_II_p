@@ -1,12 +1,10 @@
 package controller.Search;
 
 import Main.GerenciadorTelas;
-import DAO.Pokemon.PokemonDAO;
-import DAO.Pokemon.PokemonDBDAO;
+import Facade.Facade;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Pokemon;
-import Facade.PokemonFacade;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,21 +15,10 @@ public class SearchPokemonController {
     @FXML private TextField txtfIdPokemon;
     @FXML private TextField txtfTipoPokemon;
 
-    private final PokemonDAO pokemonDAO;
-
-    public SearchPokemonController() {
-        this.pokemonDAO = new PokemonDBDAO();
-    }
-
-    @FXML
-    private ListView<Pokemon> listViewPokemons;
-
-    private PokemonFacade facade = new PokemonFacade();
+    private final Facade pokemonFacade = new Facade();
 
     @FXML
     public void initialize() {
-        List<Pokemon> pokemons = facade.listarTodosPokemons();
-        listViewPokemons.getItems().addAll(pokemons);
     }
 
     @FXML
@@ -43,7 +30,7 @@ public class SearchPokemonController {
         }
 
         try {
-            Pokemon p = pokemonDAO.consultarPorNome(nome);
+            Pokemon p = pokemonFacade.buscarPokemonPorNome(nome);
             if (p != null) {
                 new Alert(Alert.AlertType.INFORMATION, p.toString(), ButtonType.OK).showAndWait();
             } else {
@@ -65,7 +52,7 @@ public class SearchPokemonController {
 
         try {
             int id = Integer.parseInt(idStr);
-            Pokemon p = pokemonDAO.consultarPorId(id);
+            Pokemon p = pokemonFacade.buscarPokemonPorId(id);
             if (p != null) {
                 new Alert(Alert.AlertType.INFORMATION, p.toString(), ButtonType.OK).showAndWait();
             } else {
@@ -88,8 +75,8 @@ public class SearchPokemonController {
         }
 
         try {
-            List<Pokemon> pokemons = pokemonDAO.consultarPorTipos(tipo, null);
-            if (!pokemons.isEmpty()) {
+            List<Pokemon> pokemons = pokemonFacade.buscarPokemonPorTipo(tipo);
+            if (pokemons != null && !pokemons.isEmpty()) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("Pokemons encontrados (").append(pokemons.size()).append("):\n\n");
                 for (Pokemon p : pokemons) {

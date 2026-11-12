@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Pokemon;
 import model.Attack;
-import Facade.PokemonFacade;
+import Facade.Facade;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -16,18 +16,10 @@ public class PokemonAttackController {
     @FXML private TextField txtIdAtaque;
     @FXML private TextArea txtAreaResultados;
 
-    @FXML private ComboBox<Pokemon> cbPokemon;
-    @FXML private ComboBox<Attack> cbAttack;
-
-    private PokemonFacade facade = new PokemonFacade();
+    private Facade facade = new Facade();
 
     @FXML
     public void initialize() {
-        List<Pokemon> pokemons = facade.listarTodosPokemons();
-        List<Attack> attacks = facade.listarTodosAtaques();
-
-        if (pokemons != null) cbPokemon.getItems().addAll(pokemons);
-        if (attacks != null) cbAttack.getItems().addAll(attacks);
     }
 
     @FXML

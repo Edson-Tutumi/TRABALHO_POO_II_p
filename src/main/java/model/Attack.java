@@ -58,6 +58,11 @@ public class Attack {
     public String getAttackType() {
         return attackType;
     }
+
+    public int getPower() {
+        return attackPower;
+    }
+
     public void setAttackType(String attackType) {
         this.attackType = attackType;
     }

@@ -1,12 +1,12 @@
 package controller.Search;
 
 import Main.GerenciadorTelas;
-import DAO.Attack.AttackDAO;
-import DAO.Attack.AttackDBDAO;
+import Facade.Facade;
+import Strategy.CriticalDamageStrategy;
+import Strategy.DamageStrategy;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Attack;
-import Facade.AttackFacade;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,21 +17,10 @@ public class SearchAttackController {
     @FXML private TextField txtIdAtaque;
     @FXML private TextField txtTipoAtaque;
 
-    private final AttackDAO attackDAO;
-
-    public SearchAttackController() {
-        this.attackDAO = new AttackDBDAO();
-    }
-
-    @FXML
-    private ListView<Attack> listViewAtaques;
-
-    private AttackFacade facade = new AttackFacade();
+    private final Facade attackFacade = new Facade();
 
     @FXML
     public void initialize() {
-        List<Attack> ataques = facade.listarTodosAtaques();
-        listViewAtaques.getItems().addAll(ataques);
     }
 
     @FXML
@@ -43,7 +32,7 @@ public class SearchAttackController {
         }
 
         try {
-            Attack attack = attackDAO.consultarPorNome(nome);
+            Attack attack = attackFacade.buscarAtaquePorNome(nome);
             if (attack != null) {
                 new Alert(Alert.AlertType.INFORMATION, attack.toString(), ButtonType.OK).showAndWait();
             } else {
@@ -65,7 +54,7 @@ public class SearchAttackController {
 
         try {
             int id = Integer.parseInt(idStr);
-            Attack attack = attackDAO.consultarPorId(id);
+            Attack attack = attackFacade.buscarAtaquePorId(id);
             if (attack != null) {
                 new Alert(Alert.AlertType.INFORMATION, attack.toString(), ButtonType.OK).showAndWait();
             } else {
@@ -88,8 +77,8 @@ public class SearchAttackController {
         }
 
         try {
-            List<Attack> ataques = attackDAO.consultarPorTipo(tipo);
-            if (!ataques.isEmpty()) {
+            List<Attack> ataques = attackFacade.buscarAtaquePorTipo(tipo);
+            if (ataques != null && !ataques.isEmpty()) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("Ataques encontrados ").append(ataques.size()).append(":\n\n");
                 for (Attack a : ataques) {
@@ -102,6 +91,32 @@ public class SearchAttackController {
             limparCampos();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Erro ao consultar por tipo: " + e.getMessage(), ButtonType.OK).showAndWait();
+        }
+    }
+
+    @FXML
+    private Label lblResultadoCritical;
+
+    @FXML
+    private void handleCalcularCritical() {
+        String nome = txtNomeAtaque.getText().trim();
+        if (nome.isEmpty()) {
+            new Alert(Alert.AlertType.WARNING, "Informe o nome do ataque para calcular o dano crítico!", ButtonType.OK).showAndWait();
+            return;
+        }
+
+        try {
+            Attack attack = attackFacade.buscarAtaquePorNome(nome);
+            if (attack != null) {
+                DamageStrategy criticalStrategy = new CriticalDamageStrategy();
+                int poderCritical = criticalStrategy.calcularDano(attack);
+                lblResultadoCritical.setText("Poder crítico (2x): " + poderCritical);
+            } else {
+                new Alert(Alert.AlertType.INFORMATION, "Nenhum ataque encontrado com esse nome.", ButtonType.OK).showAndWait();
+            }
+            limparCampos();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Erro ao calcular o crítico: " + e.getMessage(), ButtonType.OK).showAndWait();
         }
     }
 

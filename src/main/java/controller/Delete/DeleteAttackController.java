@@ -1,12 +1,10 @@
 package controller.Delete;
 
 import Main.GerenciadorTelas;
-import DAO.Attack.AttackDAO;
-import DAO.Attack.AttackDBDAO;
+import Facade.Facade; //import do FACADE
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Attack;
-import Facade.AttackFacade;
 
 import java.sql.SQLException;
 
@@ -15,17 +13,10 @@ public class DeleteAttackController {
     @FXML private TextField txtIdAtaque;
     @FXML private Label lblResultado;
 
-    private final AttackDAO attackDAO;
+    private final Facade attackFacade;
 
     public DeleteAttackController() {
-        this.attackDAO = new AttackDBDAO();
-    }
-
-    private AttackFacade facade = new AttackFacade();
-
-    @FXML
-    public void deletarAtaque() {
-        facade.listarTodosAtaques();
+        this.attackFacade = new Facade();
     }
 
     @FXML
@@ -38,7 +29,7 @@ public class DeleteAttackController {
 
         try {
             int id = Integer.parseInt(idStr);
-            Attack attack = attackDAO.consultarPorId(id);
+            Attack attack = attackFacade.buscarAtaquePorId(id);
 
             if (attack == null) {
                 new Alert(Alert.AlertType.WARNING, "Nenhum ataque encontrado com o ID.", ButtonType.OK).showAndWait();
@@ -46,11 +37,13 @@ public class DeleteAttackController {
                 return;
             }
 
-            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION, "Tem certeza que deseja excluir o ataque '" + attack.getAttackName() + "'?", ButtonType.YES, ButtonType.NO);
+            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Tem certeza que deseja excluir o ataque '" + attack.getAttackName() + "'?",
+                    ButtonType.YES, ButtonType.NO);
             confirmAlert.showAndWait();
 
             if (confirmAlert.getResult() == ButtonType.YES) {
-                attackDAO.excluir(attack);
+                attackFacade.excluirAtaque(attack);
                 new Alert(Alert.AlertType.INFORMATION, "Ataque excluído com sucesso", ButtonType.OK).showAndWait();
                 limparCampos();
             }

@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuController">
+<AnchorPane prefHeight="550.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuController">
    <children>
       <Label layoutX="111.0" layoutY="23.0" text="Pokemon Pokedex Creator">
          <font>
             <Font size="32.0" />
          </font>
       </Label>
-      <VBox alignment="CENTER" layoutX="33.0" layoutY="116.0" prefWidth="250.0" spacing="10.0">
+      <VBox alignment="CENTER" layoutX="33.0" layoutY="100.0" prefWidth="250.0" spacing="10.0">
          <children>
             <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#btnAdicionarPokemonOnAction" text="Adicionar pokemon" />
             <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#btnAtualizarPokemonOnAction" text="Atualizar pokemon" />
@@ -21,7 +21,7 @@
             <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#btnDeletarPokemonOnAction" text="Deletar pokemon" />
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="323.0" layoutY="116.0" prefWidth="250.0" spacing="10.0">
+      <VBox alignment="CENTER" layoutX="323.0" layoutY="100.0" prefWidth="250.0" spacing="10.0">
          <children>
             <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#btnAdicionarAtaquesOnAction" text="Adicionar ataque" />
             <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#btnAtualizarAtaquesOnAction" text="Atualizar ataque" />
@@ -29,10 +29,16 @@
             <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#btnDeletarAtaquesOnAction" text="Deletar ataque" />
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="174.0" layoutY="303.0" prefWidth="250.0" spacing="10.0">
+      <VBox alignment="CENTER" layoutX="174.0" layoutY="280.0" prefWidth="250.0" spacing="10.0">
          <children>
             <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#btnPokemonAttackOnAction" text="Vincular ataques" />
             <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#btnTypeChartOnAction" text="Tabela de tipos" />
+         </children>
+      </VBox>
+
+      <VBox alignment="CENTER" layoutX="174.0" layoutY="400.0" prefWidth="250.0" spacing="10.0">
+         <children>
+            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#btnCadastrarPokemonComAtaqueOnAction" text="Cadastrar Pokémon com Ataque" />
          </children>
       </VBox>
    </children>

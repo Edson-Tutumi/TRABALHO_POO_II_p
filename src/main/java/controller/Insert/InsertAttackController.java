@@ -1,12 +1,11 @@
 package controller.Insert;
 
 import Main.GerenciadorTelas;
-import DAO.Attack.AttackDAO;
-import DAO.Attack.AttackDBDAO;
+import Facade.Facade;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Attack;
-import Facade.AttackFacade;
+import model.AttackBuilder;
 
 import java.sql.SQLException;
 
@@ -18,17 +17,10 @@ public class InsertAttackController {
     @FXML private TextField txtAcuraciaAtaque;
     @FXML private SplitMenuButton SMBTipoAtaque;
 
-    private final AttackDAO attackDAO;
+    private final Facade attackFacade;
 
     public InsertAttackController() {
-        this.attackDAO = new AttackDBDAO();
-    }
-
-    private AttackFacade facade = new AttackFacade();
-
-    @FXML
-    public void inserirAtaque() {
-        facade.listarTodosAtaques();
+        this.attackFacade = new Facade();
     }
 
     @FXML
@@ -54,21 +46,18 @@ public class InsertAttackController {
         try {
             int poder = Integer.parseInt(poderStr);
             int acuracia = Integer.parseInt(acuraciaStr);
+            String efeitoFinal = efeito.isEmpty() ? null : efeito;
 
-            Attack attack = new Attack();
-            attack.setAttackName(nome);
-            attack.setAttackPower(poder);
-            attack.setAttackEffect(efeito);
-            attack.setAttackAccuracy(acuracia);
-            attack.setAttackType(tipo);
+            // Utilizando o AttackBuilder para construir o objeto de forma limpa e fluida
+            Attack attack = new AttackBuilder()
+                    .setAttackName(nome)
+                    .setAttackPower(poder)
+                    .setAttackAccuracy(acuracia)
+                    .setAttackType(tipo)
+                    .setAttackEffect(efeitoFinal)
+                    .build();
 
-            if (efeito.isEmpty()) {
-                attack.setAttackEffect(null);
-            } else {
-                attack.setAttackEffect(efeito);
-            }
-
-            attackDAO.insere(attack);
+            attackFacade.inserirAtaque(attack);
 
             new Alert(Alert.AlertType.INFORMATION, "Ataque inserido com sucesso", ButtonType.OK).showAndWait();
             limparCampos();

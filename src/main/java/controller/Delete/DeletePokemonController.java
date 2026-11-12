@@ -1,12 +1,10 @@
 package controller.Delete;
 
 import Main.GerenciadorTelas;
-import DAO.Pokemon.PokemonDAO;
-import DAO.Pokemon.PokemonDBDAO;
+import Facade.Facade;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Pokemon;
-import Facade.PokemonFacade;
 
 import java.sql.SQLException;
 
@@ -14,17 +12,10 @@ public class DeletePokemonController {
 
     @FXML private TextField txtIdPokemon;
 
-    private final PokemonDAO pokemonDAO;
+    private final Facade pokemonFacade;
 
     public DeletePokemonController() {
-        this.pokemonDAO = new PokemonDBDAO();
-    }
-
-    private PokemonFacade facade = new PokemonFacade();
-
-    @FXML
-    public void deletarPokemon() {
-        facade.listarTodosPokemons();
+        this.pokemonFacade = new Facade();
     }
 
     @FXML
@@ -37,7 +28,7 @@ public class DeletePokemonController {
 
         try {
             int id = Integer.parseInt(idStr);
-            Pokemon pokemon = pokemonDAO.consultarPorId(id);
+            Pokemon pokemon = pokemonFacade.buscarPokemonPorId(id);
 
             if (pokemon == null) {
                 new Alert(Alert.AlertType.WARNING, "Nenhum pokemon encontrado com o ID informado.", ButtonType.OK).showAndWait();
@@ -45,11 +36,13 @@ public class DeletePokemonController {
                 return;
             }
 
-            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION, "Tem certeza que deseja excluir o pokemon '" + pokemon.getPokemonName() + "'?", ButtonType.YES, ButtonType.NO);
+            Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Tem certeza que deseja excluir o pokemon '" + pokemon.getPokemonName() + "'?",
+                    ButtonType.YES, ButtonType.NO);
             confirmAlert.showAndWait();
 
             if (confirmAlert.getResult() == ButtonType.YES) {
-                pokemonDAO.excluir(pokemon);
+                pokemonFacade.excluirPokemon(pokemon);
                 new Alert(Alert.AlertType.INFORMATION, "Pokemon excluído com sucesso", ButtonType.OK).showAndWait();
                 limparCampos();
             }

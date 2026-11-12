@@ -1,12 +1,10 @@
 package controller.Update;
 
 import Main.GerenciadorTelas;
-import DAO.Pokemon.PokemonDAO;
-import DAO.Pokemon.PokemonDBDAO;
+import Facade.Facade;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Pokemon;
-import Facade.PokemonFacade;
 
 import java.sql.SQLException;
 
@@ -17,22 +15,8 @@ public class UpdatePokemonController {
     @FXML private SplitMenuButton SMBTipoPokemonUm;
     @FXML private SplitMenuButton SMBTipoPokemonDois;
 
-    private final PokemonDAO pokemonDAO;
     private Pokemon pokemonAtual;
-
-    public UpdatePokemonController() {
-        this.pokemonDAO = new PokemonDBDAO();
-    }
-
-    @FXML
-    private TextField txtNome;
-
-    private PokemonFacade facade = new PokemonFacade();
-
-    @FXML
-    public void atualizarPokemon() {
-        facade.listarTodosPokemons();
-    }
+    private final Facade pokemonFacade = new Facade();
 
     @FXML
     public void initialize() {
@@ -54,7 +38,7 @@ public class UpdatePokemonController {
 
         try {
             int id = Integer.parseInt(idStr);
-            pokemonAtual = pokemonDAO.consultarPorId(id);
+            pokemonAtual = pokemonFacade.buscarPokemonPorId(id);
 
             if (pokemonAtual != null) {
                 txtNomePokemon.setText(pokemonAtual.getPokemonName());
@@ -96,7 +80,7 @@ public class UpdatePokemonController {
             pokemonAtual.setPokemonType1(tipo1);
             pokemonAtual.setPokemonType2(tipo2);
 
-            pokemonDAO.atualizar(pokemonAtual);
+            pokemonFacade.atualizarPokemon(pokemonAtual);
 
             new Alert(Alert.AlertType.INFORMATION, "Pokemon atualizado com sucesso", ButtonType.OK).showAndWait();
             limparCampos();

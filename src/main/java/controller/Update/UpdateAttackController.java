@@ -1,12 +1,10 @@
 package controller.Update;
 
 import Main.GerenciadorTelas;
-import DAO.Attack.AttackDAO;
-import DAO.Attack.AttackDBDAO;
+import Facade.Facade;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Attack;
-import Facade.AttackFacade;
 
 import java.sql.SQLException;
 
@@ -19,19 +17,8 @@ public class UpdateAttackController {
     @FXML private TextField txtEfeitoAtaque;
     @FXML private TextField txtAcuraciaAtaque;
 
-    private final AttackDAO attackDAO;
     private Attack ataqueAtual;
-
-    public UpdateAttackController() {
-        this.attackDAO = new AttackDBDAO();
-    }
-
-    private AttackFacade facade = new AttackFacade();
-
-    @FXML
-    public void atualizarAtaque() {
-        facade.listarTodosAtaques();
-    }
+    private final Facade attackFacade = new Facade();
 
     @FXML
     public void initialize() {
@@ -50,7 +37,7 @@ public class UpdateAttackController {
 
         try {
             int id = Integer.parseInt(idStr);
-            ataqueAtual = attackDAO.consultarPorId(id);
+            ataqueAtual = attackFacade.buscarAtaquePorId(id);
 
             if (ataqueAtual != null) {
                 txtNomeAtaque.setText(ataqueAtual.getAttackName());
@@ -102,7 +89,7 @@ public class UpdateAttackController {
                 ataqueAtual.setAttackEffect(efeito);
             }
 
-            attackDAO.atualizar(ataqueAtual);
+            attackFacade.atualizarAtaque(ataqueAtual);
 
             new Alert(Alert.AlertType.INFORMATION, "Ataque atualizado com sucesso", ButtonType.OK).showAndWait();
             limparCampos();

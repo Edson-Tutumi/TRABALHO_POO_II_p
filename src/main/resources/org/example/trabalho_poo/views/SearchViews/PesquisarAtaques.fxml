@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Search.SearchAttackController">
+<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Search.SearchAttackController">
    <children>
-      <VBox layoutX="105.0" layoutY="110.0" prefHeight="170.0" prefWidth="390.0">
+      <VBox layoutX="105.0" layoutY="100.0" prefHeight="185.0" prefWidth="390.0">
          <children>
             <HBox prefHeight="55.0" prefWidth="298.0">
                <children>
@@ -48,9 +48,16 @@
             </HBox>
          </children>
       </VBox>
-      <Label layoutX="147.0" layoutY="30.0" text="Pesquisar ataque">
+      <Label layoutX="147.0" layoutY="20.0" text="Pesquisar ataque">
          <font><Font size="40.0" /></font>
       </Label>
-      <Button layoutX="105.0" layoutY="315.0" mnemonicParsing="false" onAction="#btnVoltarOnAction" text="Voltar ao menu" />
+      <Button fx:id="btnVoltar" layoutX="105.0" layoutY="370.0" mnemonicParsing="false" onAction="#btnVoltarOnAction" text="Voltar ao menu" />
+
+      <Button fx:id="btnCalcularCritical" layoutX="105.0" layoutY="315.0" mnemonicParsing="false" onAction="#handleCalcularCritical" text="Calcular Crítico (2x)" />
+      <Label fx:id="lblResultadoCritical" layoutX="255.0" layoutY="319.0" text="" textFill="#006600">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -54,4 +54,9 @@ public class MenuController {
     public void btnPokemonAttackOnAction() {
         GerenciadorTelas.changeScreen("/org/example/trabalho_poo/views/PokemonAttack.fxml", "Vincular Ataques ao Pokemon");
     }
+
+    @FXML
+    public void btnCadastrarPokemonComAtaqueOnAction() {
+        GerenciadorTelas.changeScreen("/org/example/trabalho_poo/views/CadastrarPokemonComAtaque.fxml", "Cadastrar Pokemon com Ataque");
+    }
 }
